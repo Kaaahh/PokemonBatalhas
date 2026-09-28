@@ -49,10 +49,10 @@ COMO JOGAR
 6. Vença os 3 ginásios para ganhar o jogo.
 
 GINÁSIOS
-ETAPA                LÍDER                  PÓKEMON                RECOMPENSA
-1                    brock                  geodude                insígna de pedra
-2                    misty                  staryu                 insígna de cascata
-3                    lt.surge               pikachu                insígna do trovão 
+- ETAPA                LÍDER                  PÓKEMON                RECOMPENSA
+- 1                    brock                  geodude                insígna de pedra
+- 2                    misty                  staryu                 insígna de cascata
+- 3                    lt.surge               pikachu                insígna do trovão 
 
 FUNCIONALIDADE
 
@@ -67,15 +67,15 @@ FUNCIONALIDADE
 
 ESTRUTURA DO PROJETO
 
-CLASSE           RESPONSABILIDADE  
-MAIN             MENU, FLUXO DO JOGO, CRIAÇÃO DOS GINÁSIOS E ESCOLHAS DE USUÁRIO.
-POKEMON          SUPERCLASSE COM NOME, TIPO, HP, ATAQUE E VALIDAÇÕES 
-POKEMONAGUA      SUBCLASSE DE AGUA
-POKEMONPLANTA    SUBCLASSE DE PLANTA
-POKEMONFOGO      SUBCLASSE DE FOGO 
-TREINADOR        GUARDA A EQUIPE E AS INSÍGNAS 
-GINÁSIO          GUARDA NOME DO GINÁSIO, LÍDER, PÓKEMON E A INSÍGNA 
-BATALHA          CONTROLA TURNOS, DANOS, TROCAS, VANTAGENS DE TIPO E VITÓRIA. 
+. CLASSE           RESPONSABILIDADE  
+. MAIN             MENU, FLUXO DO JOGO, CRIAÇÃO DOS GINÁSIOS E ESCOLHAS DE USUÁRIO.
+. POKEMON          SUPERCLASSE COM NOME, TIPO, HP, ATAQUE E VALIDAÇÕES 
+. POKEMONAGUA      SUBCLASSE DE AGUA
+. POKEMONPLANTA    SUBCLASSE DE PLANTA
+. POKEMONFOGO      SUBCLASSE DE FOGO 
+. TREINADOR        GUARDA A EQUIPE E AS INSÍGNAS 
+. GINÁSIO          GUARDA NOME DO GINÁSIO, LÍDER, PÓKEMON E A INSÍGNA 
+. BATALHA          CONTROLA TURNOS, DANOS, TROCAS, VANTAGENS DE TIPO E VITÓRIA. 
 
 CONCEITOS DE JAVA UTILIZADOS
 
