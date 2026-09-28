@@ -1,116 +1,139 @@
 import java.util.Scanner;
 
 public class Batalha {
+    public enum Resultado {
+        VITORIA,
+        DERROTA,
+        FUGA
+    }
+
     private Scanner entrada;
 
     public Batalha(Scanner entrada) {
         this.entrada = entrada;
     }
 
-    public boolean iniciar(Treinador treinador, Ginasio ginasio) {
+    public Resultado iniciar(Treinador treinador, Ginasio ginasio) {
         treinador.curarEquipe();
-        Pokemon adversario = ginasio.getPokemonLider();
-        adversario.curar();
 
         System.out.println("\n================================");
         System.out.println("       " + ginasio.getNome().toUpperCase());
         System.out.println("================================");
         System.out.println("Líder: " + ginasio.getLider());
-        System.out.println(ginasio.getLider() + " enviou " + adversario.getNome() + "!");
 
         Pokemon atual = escolherPokemon(treinador);
 
-        while (!adversario.estaDerrotado() && treinador.temPokemonVivo()) {
-            System.out.println("\nSeu Pokémon: " + atual.getNome() + " | HP: " + atual.getHp());
-            System.out.println("Adversário: " + adversario.getNome() + " | HP: " + adversario.getHp());
-            System.out.println("\n1 - Atacar");
-            System.out.println("2 - Trocar Pokémon");
+        for (Pokemon adversario : ginasio.getPokemonsLider()) {
+            adversario.curar();
+            System.out.println("\n" + ginasio.getLider() + " enviou " + adversario.getNome() + "!");
 
-            int acao = lerInteiro("Escolha: ", 1, 2);
+            while (!adversario.estaDerrotado() && treinador.temPokemonVivo()) {
+                System.out.println("\nSeu Pokémon: " + atual.getNome() + " | HP: " + atual.getHp());
+                System.out.println("Adversário: " + adversario.getNome() + " | HP: " + adversario.getHp());
+                System.out.println("\n1 - Atacar");
+                System.out.println("2 - Trocar Pokémon");
+                System.out.println("3 - Fugir da batalha");
 
-            if (acao == 1) {
-                atacar(atual, adversario);
-            } else {
-                atual = escolherPokemon(treinador);
-                System.out.println("Você escolheu " + atual.getNome() + "!");
-            }
+                int acao = lerInteiro("Escolha: ", 1, 3);
 
-            if (adversario.estaDerrotado()) {
-                break;
-            }
-
-            System.out.println("\nTurno do adversário:");
-            int danoAdversario = adversario.atacar();
-            atual.receberDano(danoAdversario);
-            System.out.println(atual.getNome() + " ficou com " + atual.getHp() + " HP.");
-
-            if (atual.estaDerrotado()) {
-                System.out.println(atual.getNome() + " foi derrotado!");
-
-                if (treinador.temPokemonVivo()) {
+                if (acao == 1) {
+                    atacar(atual, adversario, true);
+                } else if (acao == 2) {
                     atual = escolherPokemon(treinador);
+                    System.out.println("Você escolheu " + atual.getNome() + "!");
+                } else {
+                    int confirmarFuga = lerInteiro("Sair da batalha? 1 - Sim | 2 - Continuar: ", 1, 2);
+                    if (confirmarFuga == 1) {
+                        System.out.println("Você saiu da batalha.");
+                        return Resultado.FUGA;
+                    }
+                    System.out.println("Você continua na batalha.");
+                }
+
+                if (adversario.estaDerrotado()) {
+                    break;
+                }
+
+                System.out.println("\nTurno do adversário:");
+                atacar(adversario, atual, false);
+
+                if (atual.estaDerrotado()) {
+                    System.out.println(atual.getNome() + " foi derrotado!");
+
+                    if (treinador.temPokemonVivo()) {
+                        atual = escolherPokemon(treinador);
+                    }
                 }
             }
+
+            if (!treinador.temPokemonVivo()) {
+                System.out.println("\nSua equipe foi derrotada.");
+                return Resultado.DERROTA;
+            }
+
+            System.out.println(adversario.getNome() + " foi derrotado!");
         }
 
-        if (adversario.estaDerrotado()) {
-            System.out.println("\n" + adversario.getNome() + " foi derrotado!");
-            System.out.println("VOCÊ VENCEU O GINÁSIO!");
-            return true;
-        }
-
-        System.out.println("\nSua equipe foi derrotada.");
-        return false;
+        System.out.println("\nVOCÊ VENCEU O GINÁSIO!");
+        return Resultado.VITORIA;
     }
 
-    private void atacar(Pokemon atacante, Pokemon defensor) {
-        System.out.println("\nEscolha o ataque:");
-        System.out.println("1 - Ataque básico");
-        System.out.println("2 - " + atacante.getNomeAtaqueEspecial());
+    private void atacar(Pokemon atacante, Pokemon defensor, boolean turnoDoJogador) {
+        int danoBase;
 
-        int escolha = lerInteiro("Escolha: ", 1, 2);
+        if (turnoDoJogador) {
+            System.out.println("\nEscolha o ataque:");
+            System.out.println("1 - Ataque básico");
+            System.out.println("2 - " + atacante.getNomeAtaqueEspecial());
+            int escolha = lerInteiro("Escolha: ", 1, 2);
 
-        if (escolha == 1) {
-            int dano = atacante.getAtaque();
-            System.out.println(atacante.getNome() + " usou Ataque Básico!");
-            defensor.receberDano(dano);
-            System.out.println("Dano: " + dano);
-        } else {
-            int dano = atacante.atacar();
-
-            if (ehSuperEfetivo(atacante.getTipo(), defensor.getTipo())) {
-                mostrarMensagemSuperEfetiva(atacante);
-                defensor.receberDano(dano, 20);
-                System.out.println("Dano: 40");
+            if (escolha == 1) {
+                danoBase = atacante.getAtaque();
+                System.out.println(atacante.getNome() + " usou Ataque Básico!");
             } else {
-                defensor.receberDano(dano);
-                System.out.println("Dano: " + dano);
+                danoBase = atacante.atacar();
             }
+        } else {
+            danoBase = atacante.atacar();
         }
+
+        double multiplicador = calcularEfetividade(atacante.getTipo(), defensor.getTipo());
+        mostrarMensagemEfetividade(multiplicador);
+        int dano = Math.max(1, (int) Math.round(danoBase * multiplicador));
+        defensor.receberDano(dano);
+        System.out.println("Dano: " + dano);
 
         System.out.println(defensor.getNome() + " ficou com " + defensor.getHp() + " HP.");
     }
 
-    private boolean ehSuperEfetivo(String tipoAtacante, String tipoDefensor) {
-        return (tipoAtacante.equals("Água") && tipoDefensor.equals("Pedra"))
-                || (tipoAtacante.equals("Planta") && tipoDefensor.equals("Água"))
-                || (tipoAtacante.equals("Elétrico") && tipoDefensor.equals("Água"))
+    private double calcularEfetividade(String tipoAtacante, String tipoDefensor) {
+        if ((tipoAtacante.equals("Água") && (tipoDefensor.equals("Pedra") || tipoDefensor.equals("Fogo")))
+                || (tipoAtacante.equals("Planta") && (tipoDefensor.equals("Água") || tipoDefensor.equals("Pedra")))
                 || (tipoAtacante.equals("Fogo") && tipoDefensor.equals("Planta"))
-                || (tipoAtacante.equals("Pedra") && tipoDefensor.equals("Fogo"));
+                || (tipoAtacante.equals("Elétrico") && tipoDefensor.equals("Água"))
+                || (tipoAtacante.equals("Pedra") && tipoDefensor.equals("Fogo"))) {
+            return 2.0;
+        }
+
+        if ((tipoAtacante.equals("Água") && (tipoDefensor.equals("Planta") || tipoDefensor.equals("Elétrico")))
+                || (tipoAtacante.equals("Planta") && tipoDefensor.equals("Fogo"))
+                || (tipoAtacante.equals("Fogo") && (tipoDefensor.equals("Água") || tipoDefensor.equals("Pedra")))
+                || (tipoAtacante.equals("Elétrico") && tipoDefensor.equals("Planta"))
+                || (tipoAtacante.equals("Pedra") && (tipoDefensor.equals("Água") || tipoDefensor.equals("Planta")))
+                || (tipoAtacante.equals("Normal") && tipoDefensor.equals("Pedra"))) {
+            return 0.5;
+        }
+
+        return 1.0;
     }
 
-    private void mostrarMensagemSuperEfetiva(Pokemon pokemon) {
-        if (pokemon instanceof PokemonAgua) {
-            PokemonAgua agua = (PokemonAgua) pokemon;
-            agua.mostrarSuperEfetivo();
-        } else if (pokemon instanceof PokemonFogo) {
-            PokemonFogo fogo = (PokemonFogo) pokemon;
-            fogo.mostrarSuperEfetivo();
-        } else if (pokemon instanceof PokemonPlanta) {
-            PokemonPlanta planta = (PokemonPlanta) pokemon;
-            planta.mostrarSuperEfetivo();
+    private void mostrarMensagemEfetividade(double multiplicador) {
+        if (multiplicador > 1.0) {
+            System.out.println("Foi super efetivo!");
+        } else if (multiplicador < 1.0) {
+            System.out.println("Não foi muito efetivo.");
         } else {
-            System.out.println("O ataque foi super efetivo!");
+            System.out.println("Efetividade normal.");
         }
     }
 

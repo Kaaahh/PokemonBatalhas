@@ -9,63 +9,91 @@ public class Main {
         System.out.println("================================");
         System.out.println("       POKÉMON GYM BATTLE");
         System.out.println("================================");
-        System.out.print("Digite seu nome: ");
-        String nome = entrada.nextLine();
 
-        while (nome.trim().isEmpty()) {
-            System.out.print("Nome vazio. Digite novamente: ");
-            nome = entrada.nextLine();
+        Treinador treinador = null;
+        int proximoGinasio = 0;
+        SaveManager.Progresso progresso = SaveManager.carregar();
+
+        if (progresso != null) {
+            System.out.println("Progresso encontrado para " + progresso.getTreinador().getNome() + ".");
+            System.out.println("1 - Continuar de onde parou");
+            System.out.println("2 - Começar um novo jogo (apaga o save anterior)");
+            int escolhaProgresso = lerInteiro(entrada, "Escolha: ", 1, 2);
+
+            if (escolhaProgresso == 1) {
+                treinador = progresso.getTreinador();
+                proximoGinasio = progresso.getProximoGinasio();
+                System.out.println("Progresso carregado.");
+            } else {
+                SaveManager.excluir();
+            }
         }
 
-        Treinador treinador = new Treinador(nome);
+        if (treinador == null) {
+            System.out.print("Digite seu nome: ");
+            String nome = entrada.nextLine();
+
+            while (nome.trim().isEmpty()) {
+                System.out.print("Nome vazio. Digite novamente: ");
+                nome = entrada.nextLine();
+            }
+
+            treinador = new Treinador(nome);
+        }
+
         Batalha batalha = new Batalha(entrada);
         ArrayList<Ginasio> ginasios = criarGinasios();
 
-        int proximoGinasio = 0;
-        boolean inicialEscolhido = false;
-        int opcao = 0;
-
-        while (opcao != 4) {
+        while (true) {
             mostrarMenu();
-            opcao = lerInteiro(entrada, "Escolha: ", 1, 4);
+            int opcao = lerInteiro(entrada, "Escolha: ", 1, 4);
 
             if (opcao == 1) {
-                if (!inicialEscolhido) {
+                if (treinador.quantidadePokemon() == 0) {
                     escolherInicial(entrada, treinador);
-                    inicialEscolhido = true;
+                    SaveManager.salvar(treinador, proximoGinasio);
                 }
 
                 if (proximoGinasio >= ginasios.size()) {
                     System.out.println("\nVocê já venceu todos os ginásios!");
-                    continue;
+                    break;
                 }
 
                 Ginasio ginasioAtual = ginasios.get(proximoGinasio);
-                boolean venceu = batalha.iniciar(treinador, ginasioAtual);
+                Batalha.Resultado resultado = batalha.iniciar(treinador, ginasioAtual);
 
-                if (venceu) {
+                if (resultado == Batalha.Resultado.VITORIA) {
                     treinador.adicionarInsignia(ginasioAtual.getInsignia());
                     System.out.println("Você recebeu a " + ginasioAtual.getInsignia() + "!");
                     proximoGinasio++;
 
                     if (proximoGinasio < ginasios.size()) {
                         escolherNovoPokemon(entrada, treinador, proximoGinasio);
+                        SaveManager.salvar(treinador, proximoGinasio);
                         System.out.println("\nVolte ao menu e escolha 1 para enfrentar o próximo ginásio.");
                     } else {
                         System.out.println("\nPARABÉNS! Você venceu os 3 ginásios!");
+                        SaveManager.salvar(treinador, proximoGinasio);
+                        break;
                     }
+                } else if (resultado == Batalha.Resultado.FUGA) {
+                    System.out.println("Você pode continuar este ginásio pelo menu.");
+                    SaveManager.salvar(treinador, proximoGinasio);
                 } else {
                     System.out.println("Você pode tentar este ginásio novamente pelo menu.");
+                    SaveManager.salvar(treinador, proximoGinasio);
                 }
-
             } else if (opcao == 2) {
                 treinador.mostrarEquipe();
-
             } else if (opcao == 3) {
                 treinador.mostrarInsignias();
-
-            } else if (opcao == 4) {
+            } else {
                 System.out.println("\nObrigado por jogar, " + treinador.getNome() + "!");
+                if (treinador.quantidadePokemon() > 0) {
+                    SaveManager.salvar(treinador, proximoGinasio);
+                    System.out.println("Progresso salvo.");
+                }
+                break;
             }
         }
 
@@ -79,7 +107,7 @@ public class Main {
         System.out.println("1 - Começar / Continuar jogo");
         System.out.println("2 - Ver equipe");
         System.out.println("3 - Ver insígnias");
-        System.out.println("4 - Sair");
+        System.out.println("4 - Salvar e sair");
     }
 
     private static void escolherInicial(Scanner entrada, Treinador treinador) {
@@ -118,7 +146,6 @@ public class Main {
             } else {
                 treinador.adicionarPokemon(new Pokemon("Rattata", "Normal", 100, 20, "Mordida"));
             }
-
         } else if (etapa == 2) {
             System.out.println("1 - Vulpix");
             System.out.println("2 - Oddish");
@@ -141,13 +168,15 @@ public class Main {
     private static ArrayList<Ginasio> criarGinasios() {
         ArrayList<Ginasio> ginasios = new ArrayList<Ginasio>();
 
-        Pokemon geodude = new Pokemon("Geodude", "Pedra", 80, 20, "Pedrada");
-        Pokemon staryu = new Pokemon("Staryu", "Água", 90, 20, "Jato d'Água");
-        Pokemon pikachu = new Pokemon("Pikachu", "Elétrico", 100, 20, "Choque Elétrico");
+        Pokemon geodude = new Pokemon("Geodude", "Pedra", 85, 15, "Pedrada");
+        Pokemon staryu = new Pokemon("Staryu", "Água", 90, 16, "Jato d'Água");
+        Pokemon goldeen = new Pokemon("Goldeen", "Água", 80, 14, "Jato d'Água");
+        Pokemon pikachu = new Pokemon("Pikachu", "Elétrico", 100, 18, "Choque Elétrico");
+        Pokemon raichu = new Pokemon("Raichu", "Elétrico", 110, 20, "Trovão");
 
-        ginasios.add(new Ginasio("Ginásio de Pedra", "Brock", geodude, "Insígnia de Pedra"));
-        ginasios.add(new Ginasio("Ginásio da Água", "Misty", staryu, "Insígnia da Cascata"));
-        ginasios.add(new Ginasio("Ginásio Elétrico", "Lt. Surge", pikachu, "Insígnia do Trovão"));
+        ginasios.add(new Ginasio("Ginásio de Pedra", "Brock", "Insígnia de Pedra", geodude));
+        ginasios.add(new Ginasio("Ginásio da Água", "Misty", "Insígnia da Cascata", staryu, goldeen));
+        ginasios.add(new Ginasio("Ginásio Elétrico", "Lt. Surge", "Insígnia do Trovão", pikachu, raichu));
 
         return ginasios;
     }

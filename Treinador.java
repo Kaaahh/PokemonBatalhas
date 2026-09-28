@@ -31,6 +31,14 @@ public class Treinador {
         return equipe.size();
     }
 
+    public int quantidadeInsignias() {
+        return insignias.size();
+    }
+
+    public String getInsignia(int indice) {
+        return insignias.get(indice);
+    }
+
     public Pokemon getPokemon(int indice) {
         return equipe.get(indice);
     }

@@ -12,7 +12,7 @@ O jogador escolhe um Pókemon inicial, participa de batalhas por turnos e enfren
 COMO EXECUTAR:
 Pré-requisito
 
-. JDK
+. JDK (com `javac` disponível no PATH)
 . GIT INSTALADO
 . VS CODE
 
@@ -32,21 +32,24 @@ cd PokemonBatalhas
 3. Abra a pasta no VSCODE>
 code .
 
-4. Abra o terminal (no VSCODE: crtl + ') compile todos os arquivos:
-javac *. java
+4. Abra o terminal do VS Code na pasta do projeto e compile todos os arquivos:
+javac *.java
 
 5. Execute o jogo:
 java Main
 
-ATENÇÃO: RODE OS COMANDOS DENTRO DA PASTRA ONDE ESTÃO OS ARQUIVOS .java. SE APARECER O ERRO "COULD NOT FIND OR LOAD MAIN CLASSES", CONFIRA SE VOCÊ COMPILOU ANTES COM javac * .java E SE ESTÁ NA PASTA CORRETA.
+O jogo salva automaticamente o progresso no arquivo `pokemon-save.properties`, criado na pasta em que o comando `java Main` foi executado. Ao iniciar novamente, escolha continuar o save ou começar uma campanha nova.
+
+ATENÇÃO: RODE OS COMANDOS DENTRO DA PASTA ONDE ESTÃO OS ARQUIVOS .java. SE APARECER O ERRO "COULD NOT FIND OR LOAD MAIN CLASS", CONFIRA SE VOCÊ COMPILOU ANTES COM javac *.java E SE ESTÁ NA PASTA CORRETA.
 
 COMO JOGAR
 1. Digite o nome do treinador.
 2. Escolha o Pókemon inicial: Bulbasaur, Charmander ou Squirtle.
 3. Enfrente os ginásios em ordem.
-4. Em cada turno, escolha ATACAR ou TROCAR PÓKEMON.
+4. Em cada turno, escolha ATACAR, TROCAR PÓKEMON ou FUGIR DA BATALHA.
 5. Ao atacar, escolha entre ataque básico e ataque especial.
-6. Vença os 3 ginásios para ganhar o jogo.
+6. As vantagens e resistências de tipo afetam o dano dos ataques básicos e especiais.
+7. Vença os 3 ginásios para ganhar o jogo.
 
 GINÁSIOS
 - ETAPA                LÍDER                  PÓKEMON                RECOMPENSA
@@ -57,10 +60,12 @@ GINÁSIOS
 FUNCIONALIDADE
 
 - Escolha do Pokémon inicial
-- Batalhas por turnos
+- Batalhas por turnos com equipes de ginásio progressivas
 - Ataque básico e ataque especial
 - Troca de Pokémon durante a batalha
-- Sistema de vantagem entre tipos
+- Efetividade e resistência entre tipos
+- Fuga confirmada durante a batalha
+- Salvamento e carregamento automático de progresso
 - Sistema de ginásios
 - Sistema de insígnias
 - Validação das escolhas do jogador
