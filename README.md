@@ -1,22 +1,52 @@
-# Pokemon Gym Battle
+Pokemon Batalhas
 
-Projeto simples em Java para a disciplina de Programacao Orientada a Objetos.
+Projeto em Java para a disciplina de Programacao Orientada a Objetos.
 
-## Como abrir no VS Code
 
-1. Extraia o ZIP.
-2. Dê dois cliques em `ABRIR_NO_VSCODE.bat`.
-3. Se o Windows perguntar, permita abrir o VS Code.
-4. Abra `Main.java` e use **Run** ou execute pelo terminal.
+Sobre o projeto
 
-## Como executar pelo terminal
+O projeto é um jogo simples de batalha de Pokémon feito em Java.
 
-```powershell
-javac *.java
-java Main
-```
+O jogador escolhe um Pokémon inicial, participa de batalhas por turnos e enfrenta diferentes ginásios.
 
-Também é possível dar dois cliques em `EXECUTAR_JOGO.bat`.
+Funcionalidades
+
+- Escolha do Pokémon inicial
+- Batalhas por turnos
+- Ataque básico e ataque especial
+- Troca de Pokémon durante a batalha
+- Sistema de vantagem entre tipos
+- Sistema de ginásios
+- Sistema de insígnias
+- Validação das escolhas do jogador
+
+Conceitos de Java utilizados
+
+- Classes e objetos
+- Herança
+- Encapsulamento
+- Polimorfismo
+- Sobrecarga
+- Sobrescrita
+- ArrayList
+- for-each
+- instanceof
+- Downcasting
+- Estruturas de repetição
+- Estruturas condicionais
+- Scanner
+
+## Tecnologias
+
+- Java
+- Programação Orientada a Objetos
+
+## Integrantes
+
+- Danielle Ribeiro Castilho
+- Kauan Alexandre Gomes da Silva
+- Karina Evangelista Ferreira de Souza
+- Naiara Alves Dourado
 
 ## Arquivos principais
 
@@ -28,7 +58,3 @@ Também é possível dar dois cliques em `EXECUTAR_JOGO.bat`.
 - `Ginasio.java` - dados de cada ginasio.
 - `Batalha.java` - sistema de batalha por turnos.
 - `Main.java` - menu e fluxo principal do jogo.
-
-## Observacao
-
-O projeto nao usa `package`. Todos os arquivos `.java` devem permanecer na mesma pasta.
