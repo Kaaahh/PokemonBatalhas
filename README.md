@@ -1,88 +1,115 @@
-Pokemon Batalhas
-Projeto em Java para a disciplina de Programacao Orientada a Objetos.
+# Pokémon Batalhas
 
-Sobre o projeto
+Projeto em Java para a disciplina de Programação Orientada a Objetos.
 
-O projeto é um jogo simples de batalha de Pokémon feito em Java.
-O jogador escolhe um Pokémon inicial, participa de batalhas por turnos e enfrenta diferentes ginásios.
+## Sobre o projeto
 
-Jogo simples de batalha de Pókemon feito em Java, jogado pelo terminal. Projeto AV1 de Programação Orientada a objetos.
-O jogador escolhe um Pókemon inicial, participa de batalhas por turnos e enfrenta 3 ginásios. Ao vencer cada um, ganha um insígnas e escolhe um novo Pókemon para a equipe. 
+Este projeto é um jogo de batalha de Pokémon jogado no terminal, desenvolvido em Java. O jogador escolhe um Pokémon inicial, participa de batalhas por turnos e enfrenta diferentes ginásios. Ao vencer cada um, o treinador ganha uma insígnia e pode escolher um novo Pokémon para fortalecer a equipe.
 
-COMO EXECUTAR:
-Pré-requisito
+## Como executar
 
-. JDK (com `javac` disponível no PATH)
-. GIT INSTALADO
-. VS CODE
+### Pré-requisitos
 
-PARA CONFERIR SE O JAVA ESTÁ INSTALADO, RODE NO TERMINAL:
- 
+- JDK instalado e com `javac` disponível no PATH
+- Git instalado
+- VS Code (opcional, mas recomendado)
+
+### Verificar se o Java está instalado
+
+```bash
 java -version
 javac -version
+```
 
-PASSO A PASSO
+### Passo a passo
 
 1. Clone o repositório:
-git clone https://github.com/SEU-USUARIO/PokemonBtalhas.git
+
+```bash
+git clone https://github.com/Kaaahh/PokemonBatalhas.git
+```
 
 2. Entre na pasta do projeto:
+
+```bash
 cd PokemonBatalhas
+```
 
-3. Abra a pasta no VSCODE>
+3. Abra a pasta no VS Code:
+
+```bash
 code .
+```
 
-4. Abra o terminal do VS Code na pasta do projeto e compile todos os arquivos:
+4. Compile todos os arquivos Java:
+
+```bash
 javac *.java
+```
 
 5. Execute o jogo:
+
+```bash
 java Main
+```
 
-O jogo salva automaticamente o progresso no arquivo `pokemon-save.properties`, criado na pasta em que o comando `java Main` foi executado. Ao iniciar novamente, escolha continuar o save ou começar uma campanha nova.
+> O jogo salva automaticamente o progresso no arquivo `pokemon-save.properties`, criado na pasta em que o comando foi executado. Ao iniciar novamente, o jogador pode continuar ou começar uma nova campanha.
 
-ATENÇÃO: RODE OS COMANDOS DENTRO DA PASTA ONDE ESTÃO OS ARQUIVOS .java. SE APARECER O ERRO "COULD NOT FIND OR LOAD MAIN CLASS", CONFIRA SE VOCÊ COMPILOU ANTES COM javac *.java E SE ESTÁ NA PASTA CORRETA.
+> Atenção: os comandos devem ser executados dentro da pasta que contém os arquivos `.java`. Se aparecer o erro `Could not find or load main class`, verifique se o projeto foi compilado com `javac *.java` e se o diretório está correto.
 
-COMO JOGAR
-1. Digite o nome do treinador.
-2. Escolha o Pókemon inicial: Bulbasaur, Charmander ou Squirtle.
-3. Enfrente os ginásios em ordem.
-4. Em cada turno, escolha ATACAR, TROCAR PÓKEMON ou FUGIR DA BATALHA.
-5. Ao atacar, escolha entre ataque básico e ataque especial.
-6. As vantagens e resistências de tipo afetam o dano dos ataques básicos e especiais.
-7. Vença os 3 ginásios para ganhar o jogo.
+## Como jogar
 
-GINÁSIOS
-- ETAPA                LÍDER                  PÓKEMON                RECOMPENSA
-- 1                    brock                  geodude                insígna de pedra
-- 2                    misty                  staryu                 insígna de cascata
-- 3                    lt.surge               pikachu                insígna do trovão 
+1. Digite o nome do treinador (ou continue um jogo salvo).
+2. No menu, escolha uma das opções:
+   - `1` - Começar / Continuar jogo
+   - `2` - Ver equipe
+   - `3` - Ver insígnias
+   - `4` - Salvar e sair
+3. Escolha o Pokémon inicial: Bulbasaur, Charmander ou Squirtle.
+4. Enfrente os ginásios em ordem. A equipe é curada no início de cada ginásio.
+5. Em cada turno, escolha entre atacar, trocar Pokémon ou fugir da batalha.
+6. Ao atacar, escolha entre ataque básico e ataque especial.
+7. As vantagens e resistências de tipo afetam o dano dos ataques.
+8. Ao vencer o 1º e o 2º ginásio, escolha um novo Pokémon para a equipe.
+9. Se perder ou fugir, é possível tentar o ginásio novamente pelo menu.
+10. Vença os 3 ginásios para finalizar o jogo.
 
-FUNCIONALIDADE
+## Ginásios
+
+| Etapa | Líder | Pokémon | Recompensa |
+| --- | --- | --- | --- |
+| 1 | Brock | Geodude | Insígnia de Pedra |
+| 2 | Misty | Staryu e Goldeen | Insígnia da Cascata |
+| 3 | Lt. Surge | Pikachu e Raichu | Insígnia do Trovão |
+
+## Funcionalidades
 
 - Escolha do Pokémon inicial
-- Batalhas por turnos com equipes de ginásio progressivas
+- Batalhas por turnos com equipe progressiva
 - Ataque básico e ataque especial
 - Troca de Pokémon durante a batalha
 - Efetividade e resistência entre tipos
-- Fuga confirmada durante a batalha
+- Fuga da batalha
 - Salvamento e carregamento automático de progresso
 - Sistema de ginásios
 - Sistema de insígnias
 - Validação das escolhas do jogador
 
-ESTRUTURA DO PROJETO
+## Estrutura do projeto
 
-. CLASSE           RESPONSABILIDADE  
-. MAIN             MENU, FLUXO DO JOGO, CRIAÇÃO DOS GINÁSIOS E ESCOLHAS DE USUÁRIO.
-. POKEMON          SUPERCLASSE COM NOME, TIPO, HP, ATAQUE E VALIDAÇÕES 
-. POKEMONAGUA      SUBCLASSE DE AGUA
-. POKEMONPLANTA    SUBCLASSE DE PLANTA
-. POKEMONFOGO      SUBCLASSE DE FOGO 
-. TREINADOR        GUARDA A EQUIPE E AS INSÍGNAS 
-. GINÁSIO          GUARDA NOME DO GINÁSIO, LÍDER, PÓKEMON E A INSÍGNA 
-. BATALHA          CONTROLA TURNOS, DANOS, TROCAS, VANTAGENS DE TIPO E VITÓRIA. 
+| Classe | Responsabilidade |
+| --- | --- |
+| Main | Menu, fluxo do jogo, criação dos ginásios e interações do usuário |
+| Pokemon | Superclasse com nome, tipo, HP, ataque e validações |
+| PokemonAgua | Subclasse de Água |
+| PokemonPlanta | Subclasse de Planta |
+| PokemonFogo | Subclasse de Fogo |
+| Treinador | Guarda a equipe e as insígnias |
+| Ginasio | Guarda nome do ginásio, líder, Pokémon e recompensa |
+| Batalha | Controla turnos, danos, trocas, vantagens de tipo e vitória |
+| SaveManager | Salva e carrega o progresso no arquivo `pokemon-save.properties` |
 
-CONCEITOS DE JAVA UTILIZADOS
+## Conceitos de Java utilizados
 
 - Classes e objetos
 - Herança
@@ -92,31 +119,34 @@ CONCEITOS DE JAVA UTILIZADOS
 - Sobrescrita
 - ArrayList
 - for-each
-- instanceof
-- Downcasting
 - Estruturas de repetição
 - Estruturas condicionais
 - Scanner
+- Enum
+- Varargs
+- try-with-resources
+- Leitura e escrita de arquivos
 
-TECNOLOGIAS
+## Tecnologias
 
 - Java
 - Programação Orientada a Objetos
 
-INTEGRANTES
+## Integrantes
 
 - Danielle Ribeiro Castilho - 2642587
 - Kauan Alexandre Gomes da Silva - 2627796
 - Karina Evangelista Ferreira de Souza - 2639753
 - Naiara Alves Dourado - 2638121
 
-ARQUIVOS PRINCIPAIS 
+## Arquivos principais
 
-- `Pokemon.java` - superclasse dos Pokemon.
-- `PokemonAgua.java` - subclasse de Agua.
-- `PokemonFogo.java` - subclasse de Fogo.
-- `PokemonPlanta.java` - subclasse de Planta.
-- `Treinador.java` - equipe e insignias.
-- `Ginasio.java` - dados de cada ginasio.
-- `Batalha.java` - sistema de batalha por turnos.
-- `Main.java` - menu e fluxo principal do jogo.
+- `Pokemon.java` - superclasse dos Pokémon
+- `PokemonAgua.java` - subclasse de Água
+- `PokemonFogo.java` - subclasse de Fogo
+- `PokemonPlanta.java` - subclasse de Planta
+- `Treinador.java` - equipe e insígnias
+- `Ginasio.java` - dados de cada ginásio
+- `Batalha.java` - sistema de batalha por turnos
+- `SaveManager.java` - salvamento e carregamento do progresso
+- `Main.java` - menu e fluxo principal do jogo
